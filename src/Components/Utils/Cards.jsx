@@ -35,7 +35,7 @@ export default function ActionAreaCard(props) {
   const { title, image_l } = props;
   return (
     <Card sx={{ maxWidth: 345 }} style={{marginLeft: "30px", marginTop:"30px"}}>
-      <Link to="/cardsdetails">
+      <Link to="/cardsdetails" state={{ courseid: props.courseid, title: props.title, videLink:props.videoLink }}>
       <CardActionArea style={{width: "325px"}}>
       <img src={image_l} alt="calculo" width="100%" height="170px"></img>
         <CardContent>

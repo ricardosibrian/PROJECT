@@ -129,7 +129,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+const PortalLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -183,11 +183,11 @@ export default function MiniDrawer() {
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open} 
-      PaperProps={{
-        sx: {
-          backgroundColor: `${ColorApp.colorWhite}`
-        }
-      }}
+        PaperProps={{
+          sx: {
+            backgroundColor: `${ColorApp.colorWhite}`
+          }
+        }}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -196,14 +196,15 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <MenuList />
-        <Outlet />
-      </Drawer >
+      </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
           <div>
-            <RouterApp />
+            <Outlet/>
           </div>        
       </Box>
     </Box>
   );
 }
+
+export default PortalLayout;

@@ -9,6 +9,7 @@ import Button from '../Utils/Button';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import axios from 'axios';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -43,63 +44,56 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-export default function CustomizedAccordions() {
+export default function CustomizedAccordions(props) {
+  const [ lecciones, setLecciones ] = React.useState([]);
   const [expanded, setExpanded] = React.useState('panel1');
+
+  //Effect para cargar todos las lecciones 1 vez
+  React.useEffect(()=>{
+    fetchLecciones();
+}, []);
+
+//Fetch para obtener cursos de la base
+const fetchLecciones = async () => {
+  try {
+
+    console.log('/leccion/lecturaByCourse/' + props.courseid);
+    
+
+      const { data } = await axios.get('/leccion/lecturaByCourse/' + props.courseid);
+      setLecciones(data);
+
+  } catch (error) {
+      console.log('Error inesperado!');
+  }
+}
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  //Mapeo de las lecciones con base a los cursos obtenidos de la base
+  const mappedLecciones = lecciones.map(leccion => {
+    return(
+      <Accordion expanded={expanded === leccion._id} onChange={handleChange(leccion._id)}>
+        <AccordionSummary aria-controls={leccion._id} id={leccion._id}>
+          <Typography style={{display:'inline'}}>{leccion.title}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+          {leccion.description}
+          </Typography>
+        </AccordionDetails>
+        <Link to="/leccionesdetails" state={{ videoLink: leccion.videoLink }}>
+          <Button text="ACCEDER" />
+        </Link>
+      </Accordion>
+    )  
+});
+
   return (
     <div>
-      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography style={{display:'inline'}}>Derivadas</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-        <Link to="/leccionesdetails">
-          <Button text="ACCEDER" />
-        </Link>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Integrales</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-        <Link to="/leccionesdetails">
-          <Button text="ACCEDER" />
-        </Link>
-      </Accordion>
-      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Series de Fourier</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-        <Link to="/leccionesdetails">
-          <Button text="ACCEDER" />
-        </Link>
-      </Accordion>
-    </div>
+      {mappedLecciones}
+     </div>
   );
 }

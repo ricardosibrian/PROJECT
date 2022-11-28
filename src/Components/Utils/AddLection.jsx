@@ -35,7 +35,7 @@ export default function SpeedDialTooltipOpen(props) {
     if (description.value === '') {
       validationError++;
     }
-    if (image.value === '') {
+    if (videoLink.value === '') {
       validationError++;
     }
     return validationError;
@@ -56,7 +56,7 @@ export default function SpeedDialTooltipOpen(props) {
 
   const title = useFormInput('');
   const description = useFormInput('');
-  const image = useFormInput('');
+  const videoLink = useFormInput('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,10 +76,11 @@ export default function SpeedDialTooltipOpen(props) {
       const dataSubmit = {
         'title':title.value,
         'description':description.value,
-        'image':image.value
+        'videoLink':videoLink.value,
+        'course':props.courseid
       }
 
-      axios.post('/curso',dataSubmit, {
+      axios.post('/leccion',dataSubmit, {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
           'Authorization':`Bearer ${token}` 
@@ -100,7 +101,6 @@ export default function SpeedDialTooltipOpen(props) {
       );
   }
     
-    
   };
 
   return (
@@ -119,7 +119,7 @@ export default function SpeedDialTooltipOpen(props) {
     </Box>
 
     <Dialog open={open} onClose={handleClose}>
-    <DialogTitle>Crear un curso</DialogTitle>
+    <DialogTitle>Crear una lección</DialogTitle>
     <DialogContent>
       
       <TextField
@@ -127,7 +127,7 @@ export default function SpeedDialTooltipOpen(props) {
         margin="dense"
         required
         id="nombre"
-        label="Nombre del curso"
+        label="Nombre de la lección"
         type="text"
         fullWidth
         error = {validateField && title.value==='' ? true : false}
@@ -146,35 +146,27 @@ export default function SpeedDialTooltipOpen(props) {
         helperText = {validateField && description.value==='' ? 'Descripción del curso es requerido' : ''}
         {...description}
       />
-      <InputLabel id="demo-simple-select-label">Área del curso</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          fullWidth
-          required
-          error = {validateField && image.value==='' ? true : false}
-          helperText = {validateField && image.value==='' ? 'Área del curso es requerida' : ''}
-          {...image}
-        >
-          <MenuItem value="https://fotografias.flooxernow.com/clipping/cmsimages01/2019/06/04/0D7B8C97-218D-4CA1-8B2D-85AEC56F8D95/98.jpg?crop=871,490,x45,y0&width=1900&height=1069&optimize=high&format=webply">
-            Matemáticas</MenuItem>
-          <MenuItem value="https://img.freepik.com/premium-vector/vintage-science-background_23-2148527049.jpg">
-            Ciencias</MenuItem>
-          <MenuItem value="https://p4.wallpaperbetter.com/wallpaper/744/804/845/computer-engineering-science-tech-wallpaper-thumb.jpg">
-            Informática</MenuItem>
-          <MenuItem value="https://media.cdn.republica.gt/042022/1649792170381.webp?cw=698&ch=500&extw=jpg">
-            Humanidades</MenuItem>
-        </Select>
+      <TextField
+        autoFocus
+        margin="dense"
+        required
+        id="url"
+        label="URL de la lección"
+        type="text"
+        fullWidth
+        error = {validateField && videoLink.value==='' ? true : false}
+        helperText = {validateField && videoLink.value==='' ? 'URL de la lección es requerida' : ''}
+        {...videoLink}
+      />
     </DialogContent>
     <DialogActions>
       <Button onClick={handleClose}>Cancelar</Button>
       <Button onClick={handleCrear}>Crear</Button>
     </DialogActions>
 
-    
     </Dialog>
-      {apierror=== true ? <Snackbar severity="error" msg="Error al crear el curso."/> : ''}
-      {apiSuccess=== true ? <Snackbar severity="success" msg="Curso creado exitosamente."/> : ''}
+      {apierror=== true ? <Snackbar severity="error" msg="Error al crear la leccion."/> : ''}
+      {apiSuccess=== true ? <Snackbar severity="success" msg="Lección creada exitosamente."/> : ''}
     </div>
 
   );

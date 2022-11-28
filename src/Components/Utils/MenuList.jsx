@@ -7,6 +7,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
+import PowerSettingsNew from '@mui/icons-material/PowerSettingsNew';
 import Tooltip from '@mui/material/Tooltip';
 import {Link} from 'react-router-dom';
 import List from '@mui/material/List';
@@ -55,11 +56,11 @@ export default function MenuList() {
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}>
-                  <Tooltip title="Mis cursos" placement="right-end">
+                  <Tooltip title="Cursos" placement="right-end">
                     <MenuBookIcon /> 
                   </Tooltip>
                 </ListItemIcon>
-                <ListItemText primary={'Mis cursos'} sx={{ opacity: open ? 1 : 0 }} />                
+                <ListItemText primary={'Cursos'} sx={{ opacity: open ? 1 : 0 }} />                
               </ListItemButton>
             </ListItem>
             </Link>
@@ -91,8 +92,8 @@ export default function MenuList() {
         </List>
         <Divider />
         <List> 
-        <Link to="/contacto">
-        <ListItem key={4} disablePadding sx={{ display: 'block' }}>
+          <Link to="/contacto">
+            <ListItem key={4} disablePadding sx={{ display: 'block' }}>
               <ListItemButton 
                 sx={{
                   minHeight: 48,
@@ -113,7 +114,30 @@ export default function MenuList() {
                 <ListItemText primary={'Contacto'} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            </Link>
+          </Link>
+          <Link to="/auth/signout">
+            <ListItem key={5} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton 
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon 
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}>
+                    <Tooltip title="Cerrar Sesion" placement="right-end">
+                    <PowerSettingsNew />
+                    </Tooltip>
+                </ListItemIcon>
+                <ListItemText primary={'Cerrar Sesion'} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
     </div>
   );

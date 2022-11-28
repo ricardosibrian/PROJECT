@@ -32,7 +32,7 @@ function Cursos() {
     //Mapeo de las cards con base a los cursos obtenidos de la base
     const mappedTarjetas = cursos.map(curso => {
         return(
-            <Cards key={curso._id} title={curso.title} image_l={curso.image}/>
+            <Cards key={curso._id} title={curso.title} image_l={curso.image} courseid={curso._id} />
         )
     });
 
